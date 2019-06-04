@@ -1,0 +1,47 @@
+version: '3.7'
+services:
+  mongodb-product:
+    container_name: mongodb-product
+    image: bitnami/mongodb:latest
+    restart: always
+    volumes:
+      - 'mongo_data_product:/mongodb-product/data'
+    ports:
+      - '27017:27017'
+    environment:
+      MONGODB_DATABASE: admin
+      MONGODB_USERNAME: usr_name
+      MONGODB_PASSWORD: pr_123
+      MONGODB_ROOT_PASSWORD: pr_123
+    networks:
+      - network
+  mongodb-product-client:
+    container_name: mongodb-product-client
+    image: 'mongo-express:latest'
+    restart: always
+    links:
+      - mongodb-product
+    volumes:
+      - 'mongo_express_product:/data'
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb-product
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: 'true'
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: pr_123
+      ME_CONFIG_BASICAUTH_USERNAME: user
+      ME_CONFIG_BASICAUTH_PASSWORD: 1
+      ME_CONFIG_OPTIONS_EDITORTHEME: cobalt
+    networks:
+      - network
+    depends_on:
+      - mongodb-product      
+volumes:
+  mongo_data_product:
+    driver: local     
+  mongo_express_product:
+    driver: local     
+networks:
+  network:
+    driver: bridge    
