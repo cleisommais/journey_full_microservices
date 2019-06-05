@@ -1,3 +1,33 @@
-<p>
-  product-edit works!
-</p>
+<div class="container mat-elevation-z8">
+  <div class="loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="button-row">
+    <a mat-flat-button color="primary" (click)="productDetails()"><mat-icon>info</mat-icon></a>
+  </div>
+  <mat-card class="card">
+    <form [formGroup]="productForm" (ngSubmit)="onFormSubmit(productForm.value)">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Product Name" formControlName="name" />
+        <mat-error>
+          <span *ngIf="!productForm.get('name').valid && productForm.get('name').touched">Please enter Product Name</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Product Price" formControlName="value" />
+        <mat-error>
+          <span *ngIf="!productForm.get('value').valid && productForm.get('value').touched">Please enter Product Value</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Product Quantity" formControlName="quantity" />
+        <mat-error>
+          <span *ngIf="!productForm.get('quantity').valid && productForm.get('quantity').touched">Please enter Product Quantity</span>
+        </mat-error>
+      </mat-form-field>
+      <div class="button-row">
+        <button type="submit" [disabled]="!productForm.valid" mat-flat-button color="primary"><mat-icon>save</mat-icon></button>
+      </div>
+    </form>
+  </mat-card>
+</div>
