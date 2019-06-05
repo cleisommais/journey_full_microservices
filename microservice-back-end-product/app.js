@@ -5,6 +5,8 @@ import MongoConn from './connection/mongo-conn';
 import data from './data/product.json';
 import ProductModel from './model/product-model';
 import ProductRouter from './routes/product-router';
+import RedisConn from './connection/redis-conn';
+let prefix = process.env.REDIS_PREFIX == null ? 'product_' : process.env.REDIS_PREFIX;
 
 const app = express();
 
@@ -36,6 +38,7 @@ product.save(err => {
 	if (err) {
 		console.log('Err: %s', err);
 	} else {
+		RedisConn.set(`${prefix}${product._id}`, JSON.stringify(product));
 		console.log('Produto %s created!', product.name);
 	}
 });

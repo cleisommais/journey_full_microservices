@@ -36,11 +36,24 @@ services:
     networks:
       - network
     depends_on:
-      - mongodb-product      
+      - mongodb-product   
+  redis-server:
+    container_name: redis-server
+    image: 'bitnami/redis:latest'
+    ports:
+      - '6379:6379'
+    environment:
+      REDIS_PASSWORD: 1
+    volumes:
+      - 'redis_data:/redis-server/data'
+    networks:
+      - network         
 volumes:
   mongo_data_product:
     driver: local     
   mongo_express_product:
+    driver: local    
+  redis_data:
     driver: local     
 networks:
   network:
