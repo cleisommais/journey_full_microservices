@@ -6,7 +6,7 @@ import data from './data/product.json';
 import ProductModel from './model/product-model';
 import ProductRouter from './routes/product-router';
 import RedisConn from './connection/redis-conn';
-let prefix = process.env.REDIS_PREFIX == null ? 'product_' : process.env.REDIS_PREFIX;
+const prefix = process.env.REDIS_PREFIX == null ? 'product_' : process.env.REDIS_PREFIX;
 
 const app = express();
 
