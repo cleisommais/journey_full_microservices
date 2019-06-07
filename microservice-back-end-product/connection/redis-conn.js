@@ -1,5 +1,5 @@
 import Redis from 'ioredis';
-let prefix = process.env.REDIS_PREFIX == null ? 'product_' : process.env.REDIS_PREFIX;
+const prefix = process.env.REDIS_PREFIX == null ? 'product_' : process.env.REDIS_PREFIX;
 
 const RedisConn = new Redis({
 	port: process.env.REDIS_PORT,
