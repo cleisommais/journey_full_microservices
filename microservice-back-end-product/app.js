@@ -1,11 +1,15 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import dotenv from 'dotenv';
+dotenv.config();
 import MongoConn from './connection/mongo-conn';
 import data from './data/product.json';
 import ProductModel from './model/product-model';
 import ProductRouter from './routes/product-router';
 import RedisConn from './connection/redis-conn';
+import serverBroker from './service-broker/server';
+
 const prefix = process.env.REDIS_PREFIX == null ? 'product_' : process.env.REDIS_PREFIX;
 
 const app = express();
@@ -31,6 +35,10 @@ app.use(function(req, res, next) {
 
 MongoConn.on('connected', function() {
 	console.log('MongoDB connected!');
+});
+
+serverBroker.waitForConnect().then(function() {
+	console.log('Listening for messages');
 });
 
 let product = new ProductModel(data);
