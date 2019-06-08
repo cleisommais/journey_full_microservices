@@ -1,4 +1,6 @@
 import Redis from 'ioredis';
+import dotenv from 'dotenv';
+dotenv.config();
 const prefix = process.env.REDIS_PREFIX == null ? 'product_' : process.env.REDIS_PREFIX;
 
 const RedisConn = new Redis({
