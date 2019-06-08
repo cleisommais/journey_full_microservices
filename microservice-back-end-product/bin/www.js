@@ -2,6 +2,8 @@
 /**
  * Module dependencies.
  */
+import dotenv from 'dotenv';
+dotenv.config();
 import app from '../app';
 const debug = require('debug')('microservice-back-end-product:server');
 import http from 'http';

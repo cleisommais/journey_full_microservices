@@ -1,4 +1,6 @@
 import express from 'express';
+import dotenv from 'dotenv';
+dotenv.config();
 import ProductModel from '../model/product-model';
 import RedisConn from '../connection/redis-conn';
 

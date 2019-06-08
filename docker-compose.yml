@@ -47,14 +47,30 @@ services:
     volumes:
       - 'redis_data:/redis-server/data'
     networks:
-      - network         
+      - network   
+  rabbitmq-server:
+    container_name: rabbitmq-server
+    image: 'bitnami/rabbitmq:latest'
+    ports:
+      - '15671:15671'
+      - '15672:15672'
+      - '5672:5672'      
+    environment:
+      RABBITMQ_USERNAME: user
+      RABBITMQ_PASSWORD: 1
+    volumes:
+      - 'rabbitmq_data:/rabbitmq-server/data'
+    networks:
+      - network            
 volumes:
   mongo_data_product:
     driver: local     
   mongo_express_product:
     driver: local    
   redis_data:
-    driver: local     
+    driver: local 
+  rabbitmq_data:
+    driver: local        
 networks:
   network:
     driver: bridge    
