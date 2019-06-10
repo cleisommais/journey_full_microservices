@@ -1,11 +1,7 @@
 import AMQPConn from '../connection/rabbitmq-conn';
 const queue = process.env.RABBITMQ_QUEUE == null ? 'product-queue' : process.env.RABBITMQ_QUEUE;
+const ttl = 60;
 
-let serverBroker = AMQPConn.createRPCServer(queue, doRpcJob);
+let clientBroker = AMQPConn.createRPCClient(queue, ttl);
 
-//do RPC job
-async function doRpcJob(msg) {
-	return msg;
-}
-
-export default serverBroker;
+export default clientBroker;

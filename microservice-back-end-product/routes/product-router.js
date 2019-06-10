@@ -3,9 +3,26 @@ import dotenv from 'dotenv';
 dotenv.config();
 import ProductModel from '../model/product-model';
 import RedisConn from '../connection/redis-conn';
+import clientBroker from '../service-broker/client';
 
 const prefix = process.env.REDIS_PREFIX == null ? 'product_' : process.env.REDIS_PREFIX;
 const ProductRouter = express.Router();
+
+ProductRouter.route('/sendToQueue').get((req, resp, next) => {
+	clientBroker.waitForConnect().then(async function() {
+		console.log('Connected to RPC channel');
+		let req = { id: 1, date: new Date() };
+		try {
+			let prc_reply = await clientBroker.sendRPC(req);
+			console.log('RPC reply: ', prc_reply);
+			resp.status(200).json({
+				message: prc_reply,
+			});
+		} catch (err) {
+			console.log('RPC error: ', err);
+		}
+	});
+});
 
 ProductRouter.route('/')
 	.get((req, resp, next) => {

@@ -1,12 +1,12 @@
-import amqp from 'amqp-connection-manager';
+import amqp from 'amqp-connection-manager-rpc';
 import dotenv from 'dotenv';
 dotenv.config();
-const AMQPConn = amqp.connect(
+let AMQPConn = amqp.connect(
 	[`amqp://${process.env.RABBITMQ_USERNAME}:${process.env.RABBITMQ_PASSWORD}@${process.env.RABBITMQ_URL}:${process.env.RABBITMQ_PORT}`],
-	{ reconnectTimeInSeconds: 1, heartbeatIntervalInSeconds: 3 }
+	{ json: true }
 );
 
-AMQPConn.once('connect', function() {
+AMQPConn.on('connect', function() {
 	console.log('RabbitMQ connection opened!');
 });
 AMQPConn.on('disconnect', function(err) {

@@ -37,8 +37,8 @@ MongoConn.on('connected', function() {
 	console.log('MongoDB connected!');
 });
 
-serverBroker.waitForConnect().then(function() {
-	console.log('Listening for messages');
+serverBroker.waitForConnect().then(async function() {
+	console.log('Connected to RPC channel');
 });
 
 let product = new ProductModel(data);
