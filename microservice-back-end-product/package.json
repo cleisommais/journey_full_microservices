@@ -4,11 +4,11 @@
 	"private": true,
 	"scripts": {
 		"build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log,./Dockerfile --copy-files",
+		"debug": "nodemon --exec babel-node ./bin/www.js",
 		"dev": "nodemon --exec babel-node ./bin/www.js",
 		"start": "node bin/www.js"
 	},
 	"dependencies": {
-		"connect-redis": "^3.4.1",
 		"cookie-parser": "~1.4.3",
 		"debug": "~2.6.9",
 		"express": "~4.16.0",
@@ -16,9 +16,10 @@
 		"mongoose": "^5.4.5",
 		"mongoose-sequence": "^4.0.1",
 		"morgan": "~1.9.0",
-		"amqp-connection-manager": "^2.3.2",
+		"connect-redis": "^3.4.1",
 		"amqplib": "^0.5.3",
-		"uuid": "^3.3.2"
+		"amqp-connection-manager": "^2.3.2",
+		"amqp-connection-manager-rpc": "^1.1.1"
 	},
 	"devDependencies": {
 		"babel-cli": "^6.26.0",
