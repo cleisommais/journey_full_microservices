@@ -37,8 +37,3 @@
 - `SET RABBITMQ_USERNAME=user`
 - `SET RABBITMQ_PASSWORD=1`
 - `SET RABBITMQ_QUEUE=product-queue`
-
-### Docker compose commands
-
-- `docker-compose up --build -d`
-- `docker-compose down`
