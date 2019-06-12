@@ -1,0 +1,35 @@
+<div class="container mat-elevation-z8">
+  <div class="loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="button-row">
+    <a mat-flat-button color="primary" [routerLink]="['/consumers']"><mat-icon>list</mat-icon></a>
+  </div>
+  <mat-card class="card">
+    <form [formGroup]="consumerForm" (ngSubmit)="onFormSubmit(consumerForm.value)">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Consumer First Name" formControlName="firstName" />
+        <mat-error>
+          <span *ngIf="!consumerForm.get('firstName').valid && consumerForm.get('firstName').touched"
+            >Please enter Consumer First Name</span
+          >
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Consumer Last Name" formControlName="lastName" />
+        <mat-error>
+          <span *ngIf="!consumerForm.get('lastName').valid && consumerForm.get('lastName').touched">Please enter Consumer Last Name</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Consumer Email" formControlName="email" />
+        <mat-error>
+          <span *ngIf="!consumerForm.get('email').valid && consumerForm.get('email').touched">Please enter Consumer Email</span>
+        </mat-error>
+      </mat-form-field>
+      <div class="button-row">
+        <button type="submit" [disabled]="!consumerForm.valid" mat-flat-button color="primary"><mat-icon>save</mat-icon></button>
+      </div>
+    </form>
+  </mat-card>
+</div>
