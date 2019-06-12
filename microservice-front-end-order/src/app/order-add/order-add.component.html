@@ -1,0 +1,55 @@
+<div class="container mat-elevation-z8">
+  <div class="loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="button-row">
+    <a mat-flat-button color="primary" [routerLink]="['/orders']"><mat-icon>list</mat-icon></a>
+  </div>
+  <mat-card class="card">
+    <form [formGroup]="orderForm" (ngSubmit)="onFormSubmit(orderForm.value)">
+      <mat-form-field class="full-width">
+        <mat-select
+          [(ngModel)]="consumer_id"
+          name="consumer_id"
+          formControlName="consumer_id"
+          matInput
+          placeholder="Consumer"
+          (selectionChange)="onChangeConsumer($event)"
+        >
+          <mat-option *ngFor="let consumer of consumers" [value]="consumer._id">
+            {{ consumer.firstName }} {{ consumer.lastName }}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          <span *ngIf="!orderForm.get('consumer_id').valid && orderForm.get('consumer_id').touched">Please choose consumer</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-select
+          [(ngModel)]="product_id"
+          name="product_id"
+          formControlName="product_id"
+          matInput
+          placeholder="Product"
+          (selectionChange)="onChangeProduct($event)"
+        >
+          <mat-option *ngFor="let product of products" [value]="product._id">
+            {{ product.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          <span *ngIf="!orderForm.get('product_id').valid && orderForm.get('product_id').touched">Please choose product</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Order Quantity" formControlName="quantity" />
+        <mat-error>
+          <span *ngIf="!orderForm.get('quantity').valid && orderForm.get('quantity').touched">Please enter Order Quantity</span>
+        </mat-error>
+      </mat-form-field>
+      <div class="button-row">
+        <button type="submit" [disabled]="!orderForm.valid" mat-flat-button color="primary"><mat-icon>save</mat-icon></button>
+      </div>
+    </form>
+  </mat-card>
+</div>

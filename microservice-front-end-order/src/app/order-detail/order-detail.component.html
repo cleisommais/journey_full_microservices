@@ -1,0 +1,29 @@
+<div class="container mat-elevation-z8">
+  <div class="loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="button-row">
+    <a mat-flat-button color="primary" [routerLink]="['/orders']"><mat-icon>list</mat-icon></a>
+  </div>
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-card-title
+        ><h2>Order N°:{{ order._id }}</h2></mat-card-title
+      >
+    </mat-card-header>
+    <mat-card-content>
+      <dl>
+        <dt>Consumer:</dt>
+        <dd>{{ order.consumerName }}</dd>
+        <dt>Product:</dt>
+        <dd>{{ order.productName }}</dd>
+        <dt>Quantity:</dt>
+        <dd>{{ order.quantity }}</dd>
+      </dl>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-flat-button color="primary" [routerLink]="['/order-edit', order._id]"><mat-icon>edit</mat-icon></a>
+      <a mat-flat-button color="warn" (click)="deleteOrder(order._id)"><mat-icon>delete</mat-icon></a>
+    </mat-card-actions>
+  </mat-card>
+</div>
