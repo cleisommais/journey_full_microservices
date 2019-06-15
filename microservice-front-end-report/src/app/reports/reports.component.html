@@ -1,3 +1,17 @@
-<p>
-  reports works!
-</p>
+<div class="container mat-elevation-z8">
+  <div class="loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="mat-elevation-z8">
+    <google-chart
+      [title]="title"
+      [type]="type"
+      [data]="data"
+      [columnNames]="columnNames"
+      [options]="options"
+      [width]="width"
+      [height]="height"
+    >
+    </google-chart>
+  </div>
+</div>
