@@ -30,12 +30,6 @@ ng new microservice-front-end-report -S --commit
 
 ng g component reports
 
-ng g component report-detail
-
-ng g component report-add
-
-ng g component report-edit
-
 ng g service report-service --flat=false
 
 ng add @angular/material
