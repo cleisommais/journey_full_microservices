@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Product } from '../model/product';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class ProductService {
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
-  private apiUrl: string = 'http://localhost:3000/product';
+  private apiUrl: string = environment.urlEndPoint;
 
   constructor(private http: HttpClient) {}
 
