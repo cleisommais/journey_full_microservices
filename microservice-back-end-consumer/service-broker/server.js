@@ -19,7 +19,6 @@ async function doRpcJob(msg) {
 			for (var i = 0; i < resultKeys.length; i++) {
 				pipeline.get(resultKeys[i]);
 			}
-			console.log('1');
 		});
 		stream.on('end', function() {
 			pipeline.exec(function(error, consumers) {

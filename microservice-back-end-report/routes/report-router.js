@@ -9,7 +9,7 @@ const reportRouter = express.Router();
 
 reportRouter.route('/').get((req, resp, next) => {
 	let orders = new Promise((resolve, reject) => {
-		clientOrderBroker.waitForConnect().then(async function() {
+		clientOrderBroker.waitForConnect().then(function() {
 			let prc_reply = clientOrderBroker.sendRPC('');
 			resolve(prc_reply);
 		});
@@ -31,9 +31,34 @@ reportRouter.route('/').get((req, resp, next) => {
 
 	Promise.all([orders, product, consumer])
 		.then(values => {
-			console.log(values);
+			let orders = values[0];
+			let products = values[1];
+			let consumers = values[2];
+			//quantity orders by consumer
+			let quantOrderByConsumer = [];
+			consumers.forEach(consumer => {
+				let quant = 0;
+				orders.forEach(order => {
+					if (consumer._id === order.consumer_id) {
+						quant++;
+					}
+				});
+				quantOrderByConsumer.push({ quantity: quant, firstName: consumer.firstName + ' ' + consumer.lastName });
+			});
+			//quantity products by order
+			let quantProductByOrder = [];
+			products.forEach(product => {
+				let quant = 0;
+				orders.forEach(order => {
+					if (product._id === order.product_id) {
+						quant++;
+					}
+				});
+				quantProductByOrder.push({ quantity: quant, firstName: product.name });
+			});
 			resp.status(200).json({
-				values: values,
+				quantOrderByConsumer: quantOrderByConsumer,
+				quantProductByOrder: quantProductByOrder,
 			});
 		})
 		.catch(err => {
