@@ -54,7 +54,7 @@ reportRouter.route('/').get((req, resp, next) => {
 						quant++;
 					}
 				});
-				quantProductByOrder.push({ quantity: quant, firstName: product.name });
+				quantProductByOrder.push({ quantity: quant, name: product.name });
 			});
 			resp.status(200).json({
 				quantOrderByConsumer: quantOrderByConsumer,

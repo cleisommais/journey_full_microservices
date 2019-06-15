@@ -7,9 +7,11 @@ import { ReportService } from '../report-service/report.service';
   styleUrls: ['./reports.component.css'],
 })
 export class ReportsComponent implements OnInit {
-  title = 'Browser market shares at a specific website, 2014';
+  titleQuantOrderByConsumer = 'Quantity Orders by Consumer';
+  titleQuantProductByOrder = 'Quantity Products by Order';
   type = 'ColumnChart';
-  columnNames = ['Browser', 'Percentage'];
+  columnNamesQuantOrderByConsumer = ['firstName', 'quantity'];
+  columnNamesQuantProductByOrder = ['name', 'quantity'];
   options = {
     is3D: true,
     animation: {
@@ -18,18 +20,27 @@ export class ReportsComponent implements OnInit {
       easing: 'inAndOut',
     },
   };
-  width = 850;
-  height = 400;
+  width = '50%';
+  height = '300';
   isLoadingResults = true;
-  data: any[] = [];
+  dataQuantOrderByConsumer: any[] = [];
+  dataQuantProductByOrder: any[] = [];
 
   constructor(private api: ReportService) {}
 
   ngOnInit() {
-    this.data = [['Firefox', 45.0], ['IE', 26.8], ['Chrome', 12.8], ['Safari', 8.5], ['Opera', 6.2], ['Others', 0.7]];
     this.api.getReports().subscribe(
       res => {
-        this.data = res;
+        let quantOrderByConsumer = [];
+        quantOrderByConsumer = res['quantOrderByConsumer'];
+        quantOrderByConsumer.forEach(element => {
+          this.dataQuantOrderByConsumer.push([element.firstName, element.quantity]);
+        });
+        let quantProductByOrder = [];
+        quantProductByOrder = res['quantProductByOrder'];
+        quantProductByOrder.forEach(element => {
+          this.dataQuantProductByOrder.push([element.name, element.quantity]);
+        });
         this.isLoadingResults = false;
       },
       err => {
