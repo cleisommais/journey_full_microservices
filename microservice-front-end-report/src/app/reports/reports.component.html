@@ -2,14 +2,28 @@
   <div class="loading-shade" *ngIf="isLoadingResults">
     <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
   </div>
-  <div class="mat-elevation-z8">
+  <div class="chart mat-elevation-z8">
     <google-chart
-      [title]="title"
+      [title]="titleQuantOrderByConsumer"
       [type]="type"
-      [data]="data"
-      [columnNames]="columnNames"
+      [data]="dataQuantOrderByConsumer"
+      [columnNames]="columnNamesQuantOrderByConsumer"
       [options]="options"
-      [width]="width"
+      [dynamicResize]="'true'"
+      style="width: 100%;"
+      [height]="height"
+    >
+    </google-chart>
+  </div>
+  <div class="chart mat-elevation-z8">
+    <google-chart
+      [title]="titleQuantProductByOrder"
+      [type]="type"
+      [data]="dataQuantProductByOrder"
+      [columnNames]="columnNamesQuantProductByOrder"
+      [options]="options"
+      [dynamicResize]="'true'"
+      style="width: 100%;"
       [height]="height"
     >
     </google-chart>

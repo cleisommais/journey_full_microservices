@@ -22,3 +22,9 @@
   max-width: 360px;
   text-align: center;
 }
+
+.chart{
+  padding: 7px;
+  margin: 7px;
+  text-align: center;
+}
