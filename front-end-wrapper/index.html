@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>Your application</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="importmap-type" content="systemjs-importmap" />
+		<script type="systemjs-importmap">
+			{
+			  "imports": {
+			    "report-app": "http://localhost:4200/main.js",
+			    "single-spa": "https://unpkg.com/single-spa@4.3.2/lib/system/single-spa.min.js"
+			  }
+			}
+		</script>
+		<link rel="preload" href="https://unpkg.com/single-spa@4.3.2/lib/system/single-spa.min.js" as="script" crossorigin="anonymous" />
+		<script src="https://unpkg.com/zone.js"></script>
+		<script src="https://unpkg.com/import-map-overrides@1.5.0/dist/import-map-overrides.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/3.1.6/system.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/3.1.6/extras/amd.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/3.1.6/extras/named-exports.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/3.1.6/extras/named-register.min.js"></script>
+	</head>
+	<body>
+		<script>
+			System.import('single-spa').then(function(singleSpa) {
+				singleSpa.registerApplication(
+					'report-app',
+					() => System.import('report-app'),
+					location => location.pathname === '' || location.pathname === '/' || location.pathname.startsWith('/reports')
+				);
+				singleSpa.start();
+			});
+		</script>
+	</body>
+</html>

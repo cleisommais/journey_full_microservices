@@ -1,0 +1,14 @@
+{
+	"name": "front-end-wrapper",
+	"description": "The journey to building a full microservice app",
+	"main": "index.js",
+	"scripts": {
+		"start": "serve -s -l 80"
+	},
+	"author": "Cleison Melo",
+	"license": "MIT",
+	"devDependencies": {
+		"serve": "^10.1.1"
+	},
+	"dependencies": {}
+}
