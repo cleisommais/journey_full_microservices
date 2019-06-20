@@ -7,9 +7,8 @@ import { ReportsComponent } from './reports/reports.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressSpinnerModule, MatIconModule, MatButtonModule, MatCardModule, MatSnackBarModule } from '@angular/material';
 import { GoogleChartsModule } from 'angular-google-charts';
-import { EmptyRouteComponent } from './empty-route/empty-route.component';
 @NgModule({
-  declarations: [AppComponent, ReportsComponent, EmptyRouteComponent],
+  declarations: [AppComponent, ReportsComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
