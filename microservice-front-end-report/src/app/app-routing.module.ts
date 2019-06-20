@@ -2,15 +2,15 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ReportsComponent } from './reports/reports.component';
 import { APP_BASE_HREF } from '@angular/common';
-import { EmptyRouteComponent } from './empty-route/empty-route.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'reports',
     component: ReportsComponent,
     data: { title: 'Dashboard/Reports' },
   },
-  { path: '**', component: EmptyRouteComponent },
+  { path: '', redirectTo: '/reports', pathMatch: 'full' },
+  { path: '**', component: ReportsComponent },
 ];
 
 @NgModule({
