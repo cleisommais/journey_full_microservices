@@ -9,29 +9,40 @@
 		<script type="systemjs-importmap">
 			{
 			  "imports": {
-			    "report-app": "http://localhost:4200/main.js",
+				"app-navbar": "http://localhost:4000/main.js",
+			    "app-report": "http://localhost:4200/main.js",
 			    "single-spa": "https://unpkg.com/single-spa@4.3.2/lib/system/single-spa.min.js"
 			  }
 			}
 		</script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+		<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+		<link href="index.css" rel="stylesheet" />
 		<link rel="preload" href="https://unpkg.com/single-spa@4.3.2/lib/system/single-spa.min.js" as="script" crossorigin="anonymous" />
+	</head>
+	<body>
+		<main role="main" id="container-fluid"></main>
+		<footer class="footer bg-dark">
+			<div class="container">
+				<a target="blanck" href="https://github.com/cleisommais/journey_full_microservices"
+					><img
+						src="assets/github-sociocon.png"
+						alt="GitHub"
+						class="rounded-circle"
+					/>https://github.com/cleisommais/journey_full_microservices</a
+				>
+			</div>
+		</footer>
 		<script src="https://unpkg.com/zone.js"></script>
 		<script src="https://unpkg.com/import-map-overrides@1.5.0/dist/import-map-overrides.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/3.1.6/system.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/3.1.6/extras/amd.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/3.1.6/extras/named-exports.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/3.1.6/extras/named-register.min.js"></script>
-	</head>
-	<body>
-		<script>
-			System.import('single-spa').then(function(singleSpa) {
-				singleSpa.registerApplication(
-					'report-app',
-					() => System.import('report-app'),
-					location => location.pathname === '' || location.pathname === '/' || location.pathname.startsWith('/reports')
-				);
-				singleSpa.start();
-			});
-		</script>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<script src="index.js"></script>
 	</body>
 </html>
