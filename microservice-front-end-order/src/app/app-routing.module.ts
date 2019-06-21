@@ -4,6 +4,7 @@ import { OrdersComponent } from './orders/orders.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { OrderAddComponent } from './order-add/order-add.component';
 import { OrderEditComponent } from './order-edit/order-edit.component';
+import { APP_BASE_HREF } from '@angular/common';
 
 const routes: Routes = [
   {
@@ -27,10 +28,12 @@ const routes: Routes = [
     data: { title: 'Edit Order' },
   },
   { path: '', redirectTo: '/orders', pathMatch: 'full' },
+  { path: '**', component: OrdersComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
+  providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
 })
 export class AppRoutingModule {}
