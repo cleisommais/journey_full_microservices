@@ -3,15 +3,23 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<title>Your application</title>
+		<meta name="author" content="Cleison Ferreira de Melo" />
+		<meta name="keywords" content="Node.js,Express,Angular8,Material Design,Google-Charts,Redis,RabbitMQ,MongoDB,Docker,Docker-compose" />
+		<meta
+			name="description"
+			content="I will share my journey creating a POC to build a full microservice app. Full microservice means that I plan to build components in the front-end and back-end side separately, to help CI/CD process inside of the agile teams."
+		/>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="importmap-type" content="systemjs-importmap" />
+		<title>The journey to building a full microservice app</title>
 		<script type="systemjs-importmap">
 			{
 			  "imports": {
 				"app-navbar": "http://localhost:4000/main.js",
 				"app-consumer": "http://localhost:4100/main.js",
-			    "app-report": "http://localhost:4200/main.js",
+				"app-product": "http://localhost:4200/main.js",
+				"app-order": "http://localhost:4300/main.js",
+			    "app-report": "http://localhost:4400/main.js",
 			    "single-spa": "https://unpkg.com/single-spa@4.3.2/lib/system/single-spa.min.js"
 			  }
 			}
