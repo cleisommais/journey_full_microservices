@@ -4,6 +4,7 @@ import { ProductsComponent } from './products/products.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductAddComponent } from './product-add/product-add.component';
 import { ProductEditComponent } from './product-edit/product-edit.component';
+import { APP_BASE_HREF } from '@angular/common';
 
 const routes: Routes = [
   {
@@ -27,10 +28,12 @@ const routes: Routes = [
     data: { title: 'Edit Product' },
   },
   { path: '', redirectTo: '/products', pathMatch: 'full' },
+  { path: '**', component: ProductsComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
+  providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
 })
 export class AppRoutingModule {}

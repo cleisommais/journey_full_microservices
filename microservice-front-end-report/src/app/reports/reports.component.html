@@ -2,10 +2,10 @@
   <div class="loading-shade" *ngIf="isLoadingResults">
     <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
   </div>
-  <div class="chart mat-elevation-z8">
+  <div class="chart mat-elevation-z8" *ngIf="!isLoadingResults">
     <google-chart
       [title]="titleQuantOrderByConsumer"
-      [type]="type"
+      type="ColumnChart"
       [data]="dataQuantOrderByConsumer"
       [columnNames]="columnNamesQuantOrderByConsumer"
       [options]="options"
@@ -15,10 +15,10 @@
     >
     </google-chart>
   </div>
-  <div class="chart mat-elevation-z8">
+  <div class="chart mat-elevation-z8" *ngIf="!isLoadingResults">
     <google-chart
       [title]="titleQuantProductByOrder"
-      [type]="type"
+      type="ColumnChart"
       [data]="dataQuantProductByOrder"
       [columnNames]="columnNamesQuantProductByOrder"
       [options]="options"
