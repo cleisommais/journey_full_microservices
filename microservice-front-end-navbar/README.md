@@ -26,5 +26,10 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
+`ng new microservice-front-end-navbar -S --commit`
 
-ng serve --port 4000 --publicHost http://localhost:4000 --disable-host-check
+`ng g component navbar`
+
+`ng add single-spa-angular@beta`
+
+`ng serve --port 4000 --publicHost http://localhost:4000 --disable-host-check`
