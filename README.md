@@ -39,6 +39,15 @@
 * https://www.linkedin.com/pulse/journey-building-full-microservice-app-changing-micro-cleison/
 * https://www.linkedin.com/pulse/journey-building-full-microservice-app-creating-micro-cleison/
 
+
+### Docker commands
+
+- `docker system prune -a`
+- `docker volume rm $(docker volume ls -q -f dangling=true)`
+- `docker-compose up --build -d`
+- `docker-compose down`
+- `docker volume rm $(docker network ls -q -f dangling=true)`
+
 ### Important to know
 
 The details about the projects are documented inside each project

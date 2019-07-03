@@ -1,5 +1,6 @@
 version: '3.7'
 services:
+# MongoDB servers
   mongodb-product:
     container_name: mongodb-product
     image: bitnami/mongodb:latest
@@ -15,10 +16,46 @@ services:
       MONGODB_ROOT_PASSWORD: pr_123
     networks:
       - network
+
+  mongodb-consumer:
+    container_name: mongodb-consumer
+    image: bitnami/mongodb:latest
+    restart: always
+    volumes:
+      - 'mongo_data_consumer:/mongodb-consumer/data'
+    ports:
+      - '27018:27017'
+    environment:
+      MONGODB_DATABASE: admin
+      MONGODB_USERNAME: usr_name
+      MONGODB_PASSWORD: pr_123
+      MONGODB_ROOT_PASSWORD: pr_123
+    networks:
+      - network  
+
+  mongodb-order:
+    container_name: mongodb-order
+    image: bitnami/mongodb:latest
+    restart: always
+    volumes:
+      - 'mongo_data_order:/mongodb-order/data'
+    ports:
+      - '27019:27017'
+    environment:
+      MONGODB_DATABASE: admin
+      MONGODB_USERNAME: usr_name
+      MONGODB_PASSWORD: pr_123
+      MONGODB_ROOT_PASSWORD: pr_123
+    networks:
+      - network      
+# MongoDB clients
+
   mongodb-product-client:
     container_name: mongodb-product-client
     image: 'mongo-express:latest'
     restart: always
+    depends_on:
+      - mongodb-product      
     links:
       - mongodb-product
     volumes:
@@ -34,9 +71,54 @@ services:
       ME_CONFIG_BASICAUTH_PASSWORD: 1
       ME_CONFIG_OPTIONS_EDITORTHEME: cobalt
     networks:
-      - network
+      - network 
+    
+  mongodb-consumer-client:
+    container_name: mongodb-consumer-client
+    image: 'mongo-express:latest'
+    restart: always
     depends_on:
-      - mongodb-product   
+      - mongodb-consumer      
+    links:
+      - mongodb-consumer
+    volumes:
+      - 'mongo_express_consumer:/data'
+    ports:
+      - 8082:8081
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb-consumer
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: 'true'
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: pr_123
+      ME_CONFIG_BASICAUTH_USERNAME: user
+      ME_CONFIG_BASICAUTH_PASSWORD: 1
+      ME_CONFIG_OPTIONS_EDITORTHEME: cobalt
+    networks:
+      - network    
+
+  mongodb-order-client:
+    container_name: mongodb-order-client
+    image: 'mongo-express:latest'
+    restart: always
+    depends_on:
+      - mongodb-order     
+    links:
+      - mongodb-order
+    volumes:
+      - 'mongo_express_order:/data'
+    ports:
+      - 8083:8081
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb-order
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: 'true'
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: pr_123
+      ME_CONFIG_BASICAUTH_USERNAME: user
+      ME_CONFIG_BASICAUTH_PASSWORD: 1
+      ME_CONFIG_OPTIONS_EDITORTHEME: cobalt
+    networks:
+      - network 
+
   redis-server:
     container_name: redis-server
     image: 'bitnami/redis:latest'
@@ -61,16 +143,284 @@ services:
     volumes:
       - 'rabbitmq_data:/rabbitmq-server/data'
     networks:
-      - network            
+      - network      
+# Front-end services      
+  front-end-wrapper:
+    container_name: front-end-wrapper
+    build:
+      context: ./front-end-wrapper
+      args:
+        buildno: 2
+    image: front-end-wrapper:latest
+    ports:
+      - '80:8080'
+      - '443:8443'
+    links:
+      - microservice-front-end-consumer        
+      - microservice-front-end-order 
+      - microservice-front-end-product 
+      - microservice-front-end-report 
+      - microservice-front-end-navbar                         
+    volumes:
+      - 'wrapper_data:/data/'    
+    networks:
+      - network      
+  microservice-front-end-consumer:
+    container_name: microservice-front-end-consumer
+    build:
+      context: ./microservice-front-end-consumer
+      args:
+        buildno: 1
+    image: microservice-front-end-consumer:latest
+    ports:
+      - '4100:80'
+    links:
+      - microservice-back-end-consumer          
+    networks:
+      - network    
+      
+  microservice-front-end-order:
+    container_name: microservice-front-end-order
+    build:
+      context: ./microservice-front-end-order
+      args:
+        buildno: 1
+    image: microservice-front-end-order:latest
+    ports:
+      - '4300:8080'
+      - '8343:8443'
+    links:
+      - microservice-back-end-order        
+    volumes:
+      - 'order_data:/data/frontend/'    
+    networks:
+      - network    
+
+  microservice-front-end-product:
+    container_name: microservice-front-end-product
+    build:
+      context: ./microservice-front-end-product
+      args:
+        buildno: 1
+    image: microservice-front-end-product:latest
+    ports:
+      - '4200:8080'
+      - '8243:8443'
+    links:
+      - microservice-back-end-product        
+    volumes:
+      - 'product_data:/data/frontend/'    
+    networks:
+      - network      
+
+  microservice-front-end-report:
+    container_name: microservice-front-end-report
+    build:
+      context: ./microservice-front-end-report
+      args:
+        buildno: 1
+    image: microservice-front-end-report:latest
+    ports:
+      - '4400:8080'
+      - '8443:8443'
+    links:
+      - microservice-back-end-report        
+    volumes:
+      - 'report_data:/data/frontend/'    
+    networks:
+      - network  
+
+  microservice-front-end-navbar:
+    container_name: microservice-front-end-navbar
+    build:
+      context: ./microservice-front-end-navbar
+      args:
+        buildno: 1
+    image: microservice-front-end-navbar:latest
+    ports:
+      - '4000:80'    
+    networks:
+      - network               
+# Backend services
+
+  microservice-back-end-product:
+    container_name: microservice-back-end-product
+    build:
+      context: ./microservice-back-end-product
+      args:
+        buildno: 1
+    image: microservice-back-end-product:latest
+    ports:
+      - '3000:3000'
+    depends_on:
+      - redis-server
+      - rabbitmq-server
+      - mongodb-product
+    links:
+      - redis-server
+      - rabbitmq-server
+      - mongodb-product      
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      MONGODB_URL: mongodb-product
+      MONGODB_PORT: 27017
+      MONGODB_DATABASE: admin
+      MONGODB_USERNAME: root
+      MONGODB_PASSWORD: pr_123
+      REDIS_URL: redis-server
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: 1
+      REDIS_PREFIX: product_
+      RABBITMQ_URL: rabbitmq-server
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: user
+      RABBITMQ_PASSWORD: 1
+      RABBITMQ_QUEUE: product-queue
+    command: sh -c 'npm run start'    
+    volumes:
+      - 'product_data:/data/backend/'  
+    networks:
+      - network
+
+  microservice-back-end-consumer:
+    container_name: microservice-back-end-consumer
+    build:
+      context: ./microservice-back-end-consumer
+      args:
+        buildno: 1
+    image: microservice-back-end-consumer:latest
+    ports:
+      - '3001:3001'
+    depends_on:
+      - redis-server
+      - rabbitmq-server
+      - mongodb-consumer
+    links:
+      - redis-server
+      - rabbitmq-server
+      - mongodb-consumer      
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      MONGODB_URL: mongodb-consumer
+      MONGODB_PORT: 27017
+      MONGODB_DATABASE: admin
+      MONGODB_USERNAME: root
+      MONGODB_PASSWORD: pr_123
+      REDIS_URL: redis-server
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: 1
+      REDIS_PREFIX: consumer_
+      RABBITMQ_URL: rabbitmq-server
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: user
+      RABBITMQ_PASSWORD: 1
+      RABBITMQ_QUEUE: consumer-queue
+    command: sh -c 'npm run start'    
+    volumes:
+      - 'consumer_data:/data/backend/'  
+    networks:
+      - network 
+
+  microservice-back-end-order:
+    container_name: microservice-back-end-order
+    build:
+      context: ./microservice-back-end-order
+      args:
+        buildno: 1
+    image: microservice-back-end-order:latest
+    ports:
+      - '3002:3002'
+    depends_on:
+      - redis-server
+      - rabbitmq-server
+      - mongodb-order
+    links:
+      - redis-server
+      - rabbitmq-server
+      - mongodb-order      
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+      MONGODB_URL: mongodb-order
+      MONGODB_PORT: 27017
+      MONGODB_DATABASE: admin
+      MONGODB_USERNAME: root
+      MONGODB_PASSWORD: pr_123
+      REDIS_URL: redis-server
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: 1
+      REDIS_PREFIX: order_
+      RABBITMQ_URL: rabbitmq-server
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: user
+      RABBITMQ_PASSWORD: 1
+      RABBITMQ_QUEUE: order-queue
+    command: sh -c 'npm run start'    
+    volumes:
+      - 'order_data:/data/backend/'  
+    networks:
+      - network
+
+  microservice-back-end-report:
+    container_name: microservice-back-end-report
+    build:
+      context: ./microservice-back-end-report
+      args:
+        buildno: 1
+    image: microservice-back-end-report:latest
+    ports:
+      - '3003:3003'
+    depends_on:
+      - rabbitmq-server
+    links:
+      - rabbitmq-server    
+    environment:
+      NODE_ENV: production
+      PORT: 3003
+      RABBITMQ_URL: rabbitmq-server
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: user
+      RABBITMQ_PASSWORD: 1
+      RABBITMQ_PRODUCT_QUEUE: product-queue
+      RABBITMQ_CONSUMER_QUEUE: consumer-queue
+      RABBITMQ_ORDER_QUEUE: order-queue
+    command: sh -c 'npm run start'    
+    volumes:
+      - 'report_data:/data/backend/'  
+    networks:
+      - network
+
 volumes:
   mongo_data_product:
-    driver: local     
+    driver: local   
+  mongo_data_consumer:
+    driver: local  
+  mongo_data_order:
+    driver: local         
   mongo_express_product:
     driver: local    
+  mongo_express_consumer:
+    driver: local     
+  mongo_express_order:
+    driver: local       
   redis_data:
     driver: local 
   rabbitmq_data:
+    driver: local  
+  wrapper_data:
     driver: local        
+  consumer_data:
+    driver: local     
+  order_data:
+    driver: local  
+  product_data:
+    driver: local 
+  report_data:
+    driver: local  
+  navbar_data:
+    driver: local                       
 networks:
   network:
     driver: bridge    
