@@ -119,6 +119,7 @@ services:
     networks:
       - network 
 
+# Redis server      
   redis-server:
     container_name: redis-server
     image: 'bitnami/redis:latest'
@@ -129,7 +130,9 @@ services:
     volumes:
       - 'redis_data:/redis-server/data'
     networks:
-      - network   
+      - network  
+
+# RabbitMQ server      
   rabbitmq-server:
     container_name: rabbitmq-server
     image: 'bitnami/rabbitmq:latest'
@@ -144,6 +147,7 @@ services:
       - 'rabbitmq_data:/rabbitmq-server/data'
     networks:
       - network      
+
 # Front-end services      
   front-end-wrapper:
     container_name: front-end-wrapper
@@ -153,18 +157,16 @@ services:
         buildno: 2
     image: front-end-wrapper:latest
     ports:
-      - '80:8080'
-      - '443:8443'
+      - '80:80'
     links:
       - microservice-front-end-consumer        
       - microservice-front-end-order 
       - microservice-front-end-product 
       - microservice-front-end-report 
-      - microservice-front-end-navbar                         
-    volumes:
-      - 'wrapper_data:/data/'    
+      - microservice-front-end-navbar                            
     networks:
-      - network      
+      - network 
+
   microservice-front-end-consumer:
     container_name: microservice-front-end-consumer
     build:
@@ -187,12 +189,9 @@ services:
         buildno: 1
     image: microservice-front-end-order:latest
     ports:
-      - '4300:8080'
-      - '8343:8443'
+      - '4300:80'
     links:
-      - microservice-back-end-order        
-    volumes:
-      - 'order_data:/data/frontend/'    
+      - microservice-back-end-order          
     networks:
       - network    
 
@@ -204,12 +203,9 @@ services:
         buildno: 1
     image: microservice-front-end-product:latest
     ports:
-      - '4200:8080'
-      - '8243:8443'
+      - '4200:80'
     links:
-      - microservice-back-end-product        
-    volumes:
-      - 'product_data:/data/frontend/'    
+      - microservice-back-end-product         
     networks:
       - network      
 
@@ -221,12 +217,9 @@ services:
         buildno: 1
     image: microservice-front-end-report:latest
     ports:
-      - '4400:8080'
-      - '8443:8443'
+      - '4400:80'
     links:
-      - microservice-back-end-report        
-    volumes:
-      - 'report_data:/data/frontend/'    
+      - microservice-back-end-report          
     networks:
       - network  
 
@@ -240,7 +233,8 @@ services:
     ports:
       - '4000:80'    
     networks:
-      - network               
+      - network    
+                 
 # Backend services
 
   microservice-back-end-product:
