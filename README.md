@@ -38,6 +38,7 @@
 * https://www.linkedin.com/pulse/journey-building-full-microservice-app-creating-ferreira-de-melo-1c/
 * https://www.linkedin.com/pulse/journey-building-full-microservice-app-changing-micro-cleison/
 * https://www.linkedin.com/pulse/journey-building-full-microservice-app-creating-micro-cleison/
+* https://www.linkedin.com/pulse/journey-building-full-microservice-app-management-all-cleison/
 
 
 ### Docker commands
