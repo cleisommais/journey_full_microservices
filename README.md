@@ -2,7 +2,7 @@
 
 ### Author: Cleison Ferreira de Melo @cleisommais
 
- I will share my journey creating a POC to build a full microservice app. Full microservice means that I plan to build components in the front-end and back-end side separately, **to help CI/CD process** inside of the agile teams.
+ I will share my journey creating a POC to build a full microservice app. Full microservice means that I plan to build components in the front-end and back-end side separately, **to help CI/CD process** inside of the agile teams. Was 24 articles and several hours until reach the final result. I hope you enjoy it.
 
 
 [![Angular](https://img.shields.io/badge/Angular-8.0.0-DD0031.svg)](https://angular.io/)
@@ -42,15 +42,18 @@
 
 ### Docker commands
 
-- `docker system prune -a`
-- `docker volume rm $(docker volume ls -q -f dangling=true)`
-- `docker-compose up --build -d`
-- `docker-compose down`
+- *Remove all Docker images*: `docker system prune -a`
+- *Remove all Docker volumes*: `docker volume rm $(docker volume ls -q -f dangling=true)`
+- *Start and update all services in Docker-compose file*: `docker-compose up --build -d`
+- *Stop all services started*: `docker-compose down`
 
 ### Important to know
 
-The details about the projects are documented inside each project
+- The details about the projects are documented inside each project
+- To see the final result just run `docker-compose up --build -d` inside root project folder
 
 > Success is a journey, not a destination. The doing is often more important than the outcome. Arthur Ashe
 
 _Good luck_
+
+_Cleison Ferreira de Melo_
