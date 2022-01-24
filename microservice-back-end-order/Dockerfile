@@ -9,7 +9,7 @@ COPY .  .
 RUN npm run build
 ###################################################
 # The server node
-FROM node:latest
+FROM node:12-alpine
 WORKDIR /usr/src/app
 # Copy the build from builder image
 COPY --from=builder /usr/src/app/dist/ ./
