@@ -1,5 +1,5 @@
 # The builder from node image
-FROM node:latest as builder
+FROM node:12-alpine as builder
 # Move our files into directory name "app"
 WORKDIR /usr/src/app
 COPY package*.json ./
